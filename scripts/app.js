@@ -410,5 +410,5 @@ function Click(index)
 	}
 
 	//Ждём секунду и обновляем тест
-	setTimeout(Update, 100);
+	setTimeout(Update, 1000);
 }
