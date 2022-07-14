@@ -2,10 +2,54 @@ const headElem = document.getElementById("head");
 const buttonsElem = document.getElementById("buttons");
 const pagesElem = document.getElementById("pages");
 
+
+
+// Возможные варианты ответа
+const options = ["нет", "скорее да", "определенно да"]
+
+// Список направлений
+const profiles = 
+[
+	"ИИ", "Геном", "ВРС"
+]
+
+const p_count = profiles.length;
+
+// Список вопросов
+const data_questions = 
+[
+	"Меня интересует биология",
+	"Я увлекаюсь роботехникой", 
+	"Нейросети - самая захватывающая сфера новых технологий",
+	"У умею программировать на Python"
+]
+
+// Матрица соответствия. По столбцам - профили, по строкам - вопросы. 
+// На пересечении "1" у тех вопросов, которые дают балл для соответствующего профиля.
+const data_results = 
+[
+	[0, 1, 0],
+	[0, 0, 1],
+	[1, 0, 0],
+	[1, 0, 1]
+];
+
+// Максимально возможное количество баллов, которое можно набрать за профиль
+const max_results_by_profile = new Array(profiles.length)
+for (var i = 0; i < p_count; i++) {
+	var sum = 0;
+	for (var j = 0; j < data_questions.length; j++) {
+		sum += data_results[j][i];
+	}
+	//console.log(sum);
+	max_results_by_profile[i] = sum * 2;
+}
+
+
 //Класс, который представляет сам тест
 class Quiz
 {
-	constructor(type, questions, results)
+	constructor(type, questions, recommendations)
 	{
 		//Тип теста: 1 - классический тест с правильными ответами, 2 - тест без правильных ответов
 		this.type = type;
@@ -14,13 +58,16 @@ class Quiz
 		this.questions = questions;
 
 		//Массив с возможными результатами
-		this.results = results;
+		this.recommendations = Array.from(recommendations);
 
-		//Количество набранных очков
-		this.score = 0;
+		//Количество набранных очков по каждому профилю
+		this.score = new Array(p_count);
+		for (var i = 0; i < p_count; i++) {
+			this.score[i] = 0;
+		}
 
 		//Номер результата из массива
-		this.result = 0;
+		this.result = "Здесь будет ваш результат!!";
 
 		//Номер текущего вопроса
 		this.current = 0;
@@ -30,7 +77,11 @@ class Quiz
 	{
 		//Добавляем очки
 		let value = this.questions[this.current].Click(index);
-		this.score += value;
+		console.log(this.current);
+		//this.score += value;
+		for (var i = 0; i < p_count; i++){
+			this.score[i] += data_results[this.current][i] * value;
+		}
 
 		let correct = -1;
 
@@ -71,13 +122,42 @@ class Quiz
 	//Если вопросы кончились, этот метод проверит, какой результат получил пользователь
 	End()
 	{
-		for(let i = 0; i < this.results.length; i++)
-		{
-			if(this.results[i].Check(this.score))
-			{
-				this.result = i;
-			}
+		for (var i = 0; i < p_count; i++){
+			this.score[i] = Math.floor(this.score[i] / max_results_by_profile[i] * 100);
 		}
+		// сортируем массив профилей по убыванию результатов
+		var temp = {};
+		for (var i = 0; i < p_count; i++){
+			temp[this.recommendations[i]] = this.score[i];
+		}
+		this.recommendations.sort(function(a, b) {
+			return temp[b] - temp[a]
+		});
+		
+		this.score.sort(function(a, b) {
+			return b - a
+		});
+		
+		if (this.score[p_count - 1] == 100) {
+			this.result = "Вы уверены, что искренне отвечали на вопросы? Советуем пройти тест еще раз."
+		}
+		else if (this.score[0] < 50){
+			this.result = "Кажется вас не заинтересует ни один из профилей :( Проанализируйте свои ответы и попробуйте пройти тест еще раз."
+		}
+		else{
+			this.result = "Рекомендуемые вам профили: ";
+			var i = 0;
+			do {
+				this.result += this.recommendations[i] + "(" + this.score[i].toString() + "%), ";
+				i++;
+			}
+			while(this.score[i] >= 50 && i <= 5);
+			this.result = this.result.substr(0, this.result.length - 2)
+		}
+	
+		
+		console.log(this.score[0]);
+		console.log(this.recommendations[0]);
 	}
 } 
 
@@ -106,92 +186,22 @@ class Answer
 	}
 }
 
-//Класс, представляющий результат
-class Result 
-{
-	constructor(text, value)
-	{
-		this.text = text;
-		this.value = value;
-	}
-
-	//Этот метод проверяет, достаточно ли очков набрал пользователь
-	Check(value)
-	{
-		if(this.value <= value)
-		{
-			return true;
-		}
-		else 
-		{
-			return false;
-		}
-	}
-}
-
-//Массив с результатами
-const results = 
-[
-	new Result("Вам многому нужно научиться", 0),
-	new Result("Вы уже неплохо разбираетесь", 2),
-	new Result("Ваш уровень выше среднего", 4),
-	new Result("Вы в совершенстве знаете тему", 6)
-];
 
 //Массив с вопросами
-const questions = 
-[
-	new Question("2 + 2 = ", 
+questions = [];
+questions.length = data_questions.length;
+for (var i = 0; i < data_questions.length; i++) {
+	questions[i] = new Question(data_questions[i], 
 	[
-		new Answer("2", 0),
-		new Answer("3", 0),
-		new Answer("4", 1),
-		new Answer("0", 0)
-	]),
+		new Answer(options[0], 0),
+		new Answer(options[1], 1),
+		new Answer(options[2], 2)
+	]);
+}
 
-	new Question("2 * 2 = ", 
-	[
-		new Answer("2", 0),
-		new Answer("3", 0),
-		new Answer("4", 1),
-		new Answer("0", 0)
-	]),
-
-	new Question("2 / 2 = ", 
-	[
-		new Answer("0", 0),
-		new Answer("1", 1),
-		new Answer("2", 0),
-		new Answer("3", 0)
-	]),
-
-	new Question("2 - 2 = ", 
-	[
-		new Answer("0", 1),
-		new Answer("1", 0),
-		new Answer("2", 0),
-		new Answer("3", 0)
-	]),
-
-	new Question("2 + 2 * 2 = ", 
-	[
-		new Answer("4", 0),
-		new Answer("6", 1),
-		new Answer("8", 0),
-		new Answer("10", 0)
-	]),
-
-	new Question("2 + 2 / 2 = ", 
-	[
-		new Answer("1", 0),
-		new Answer("2", 0),
-		new Answer("3", 1),
-		new Answer("4", 0)
-	])
-];
 
 //Сам тест
-const quiz = new Quiz(1, questions, results);
+const quiz = new Quiz(2, questions, profiles);
 
 Update();
 
@@ -230,8 +240,8 @@ function Update()
 	{
 		//Если это конец, то выводим результат
 		buttonsElem.innerHTML = "";
-		headElem.innerHTML = quiz.results[quiz.result].text;
-		pagesElem.innerHTML = "Очки: " + quiz.score;
+		headElem.innerHTML = quiz.result;
+		// pagesElem.innerHTML = "Еще какой-то текст "; // + quiz.score;
 	}
 }
 
