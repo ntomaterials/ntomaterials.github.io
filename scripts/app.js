@@ -339,5 +339,5 @@ function Click(index)
 	
 	btns[index].className = "button button_correct";
 	
-	setTimeout(Update, 1000);
+	setTimeout(Update, 300);
 }
