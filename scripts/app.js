@@ -91,6 +91,50 @@ const data_questions =
 	"Мне интересны оптоволоконные технологии."
 ]
 
+// Список иллюстраций
+const images_filename = [
+	"img001.jpg",
+	"img002.jpg",
+	"img003.jpg",
+	"img004.jpg",
+	"img005.jpg",
+	"img006.jpg",
+	"img007.jpg",
+	"img008.jpg",
+	"img009.jpg",
+	"img010.jpg",
+	"img11.jpg",
+	"img12.jpg",
+	"img13.jpg",
+	"img14.jpg",
+	"img15.jpg",
+	"img16.jpg",
+	"img17.jpg",
+	"img18.jpg",
+	"img19.jpg",
+	"img20.jpg",
+	"img21.jpg",
+	"img22.jpg",
+	"img23.jpg",
+	"img24.jpg",
+	"img25.jpg",
+	"img26.jpg",
+	"img27.jpg",
+	"img28.jpg",
+	"img29.jpg",
+	"img30.jpg",
+	"img31.jpg",
+	"img32.jpg",
+	"img33.jpg",
+	"img34.jpg",
+	"img35.jpg",
+	"img36.jpg",
+	"img37.jpg",
+	"img38.jpg",
+	"img39.jpg"
+]
+
+
 // Матрица соответствия. По столбцам - профили, по строкам - вопросы. 
 // На пересечении "1" или "2" у тех вопросов, которые дают балл для соответствующего профиля.
 const data_results = 
@@ -150,11 +194,14 @@ for (var i = 0; i < p_count; i++) {
 //Класс, который представляет сам тест
 class Quiz
 {
-	constructor(questions, recommendations)
+	constructor(questions, images, recommendations)
 	{
 
 		//Массив с вопросами
 		this.questions = questions;
+
+		// Массив с иллюстрациями
+		this.images = images;
 
 		//Массив с рекомендованными профилями
 		this.recommendations = Array.from(recommendations);
@@ -283,7 +330,7 @@ for (var i = 0; i < data_questions.length; i++) {
 
 
 //Сам тест
-const quiz = new Quiz(questions, profiles);
+const quiz = new Quiz(questions, images_filename, profiles);
 
 Update();
 
@@ -292,7 +339,10 @@ function Update()
 {
 	if(quiz.current < quiz.questions.length) 
 	{
-		headElem.innerHTML = quiz.questions[quiz.current].text;
+		// headElem.innerHTML = quiz.questions[quiz.current].text;
+		html_text = "<img src=\"images\\" + quiz.images[quiz.current] + "\" height=300> <br> " + quiz.questions[quiz.current].text;
+		headElem.innerHTML = html_text;
+		// console.log(html_text);
 		buttonsElem.innerHTML = "";
 		for(let i = 0; i < quiz.questions[quiz.current].answers.length; i++)
 		{
