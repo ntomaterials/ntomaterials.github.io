@@ -28,7 +28,8 @@ body, html
 .quiz-frame
 {
 	border: 0;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	box-shadow: none;
+	/* box-shadow: 0 0 10px rgba(0,0,0,0.5); */
 }
 
 .quiz__head
@@ -36,6 +37,8 @@ body, html
 	font-size: 20pt;
 	margin: 10px;
 	margin-bottom: 50px;
+	margin-left: 10%;
+	margin-right: 10%;
 }
 
 .head__content 
@@ -78,7 +81,7 @@ body, html
 .picture
 {
 	max-width: 500px;
-	width: 70%;
+	width: 70%
 	border-radius: 10px;
 	padding: 10px 10px;
 }
