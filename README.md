@@ -1,6 +1,6 @@
 # Тест на выбор профиля НТО
 
-База вопросов по ссылке: https://docs.google.com/spreadsheets/d/1hl9M7FCQCw4QoXLr1SavymfnMT8yPefmrN_T9CUPYfQ
+База вопросов по ссылке: https://docs.google.com/spreadsheets/d/1ntCp-FVZ70Bz3L1YNTBBHiK7Rrs9jSgoU6T0dBGLJr8
 
 ## Методика теста
 
