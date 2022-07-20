@@ -50,7 +50,7 @@ const p_count = profiles.length;
 // Список вопросов
 const data_questions = 
 [
-	"Я увлекаюсь робототехникой и возможно даже уже выступал(а) на роботехнических соревнованиях.",
+	"Я увлекаюсь робототехникой и хочу принимать участие в робототехнических соревнованиях.",
 	"Я хочу проектировать, создавать новые инженерные и технологические решения с нуля до реализации на производстве.",
 	"Меня интересуют протоколы передачи данных.",
 	"Мне больше интересны технологии на более низком уровне, например — цифровая обработка сигнала.",
@@ -339,8 +339,8 @@ function Update()
 {
 	if(quiz.current < quiz.questions.length) 
 	{
-		// headElem.innerHTML = quiz.questions[quiz.current].text;
-		html_text = "<img src=\"images\\" + quiz.images[quiz.current] + "\" height=300> <br> " + quiz.questions[quiz.current].text;
+		// headElem.innerHTML = quiz.questions[quiz.current].text; 
+		html_text = "<img class=\"picture\" src=\"images\\" + quiz.images[quiz.current] + "\"> <br> " + quiz.questions[quiz.current].text;
 		headElem.innerHTML = html_text;
 		// console.log(html_text);
 		buttonsElem.innerHTML = "";
