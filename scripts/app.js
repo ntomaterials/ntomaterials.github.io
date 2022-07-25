@@ -267,7 +267,7 @@ class Quiz
 		if (this.score[10] == 100) {
 			this.result = "Вы уверены, что искренне отвечали на вопросы? Советуем пройти тест еще раз."
 		}
-		else if (this.score[0] < 45){
+		else if (this.score[0] < 33){
 			this.result = "Кажется вас не заинтересует ни один из профилей :( Проанализируйте свои ответы и попробуйте пройти тест еще раз."
 		}
 		else{
@@ -277,7 +277,7 @@ class Quiz
 				this.result += "<br> <br>" + this.recommendations[i] + " (" + this.score[i].toString() + "%), ";
 				i++;
 			}
-			while(this.score[i] >= 45 && i < 4);
+			while(this.score[i] >= 33 && i < 4);
 			this.result = this.result.substr(0, this.result.length - 2)
 			this.result += "</p>"
 		}
