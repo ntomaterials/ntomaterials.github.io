@@ -264,7 +264,7 @@ class Quiz
 			return b - a
 		});
 		
-		if (this.score[10] == 100) {
+		if (this.score[20] == 100) {
 			this.result = "Вы уверены, что искренне отвечали на вопросы? Советуем пройти тест еще раз."
 		}
 		else if (this.score[0] < 33){
