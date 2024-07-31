@@ -54,7 +54,7 @@ body, html
 .quiz__footer 
 {
 	position: absolute;
-	bottom: 0;
+	bottom: 20;
 	display: block;
 	width: 100%;
 }

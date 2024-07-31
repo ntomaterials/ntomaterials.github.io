@@ -30,3 +30,20 @@ body, html
 	text-align: center;
 }
 
+.logo-image {
+	width: 400px;
+	text-align: center;
+	margin: auto;
+	display: block;
+   }
+
+.footer 
+{
+	position: absolute;
+	text-align: center;
+	vertical-align: bottom;
+	/* bottom: 0; */
+	/* display: block; */
+	width: 90%;
+	padding: 5px;
+}
