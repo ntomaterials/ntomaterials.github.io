@@ -2,9 +2,9 @@
 
 ## Использование теста
 
-Тест доступен по ссылке: https://ntomaterials.github.io/
+Тест доступен по ссылке: https://ntcontest.github.io/
 
-Для использования теста офлайн, [скачайте папку проекта по ссылке](https://github.com/ntomaterials/ntomaterials.github.io/archive/refs/heads/master.zip) распакуйте на своем компьютере и откройте в браузере файл **index.html**
+Для использования теста офлайн, [скачайте папку проекта по ссылке](https://github.com/ntcontest/ntomaterials.github.io/archive/refs/heads/master.zip) распакуйте на своем компьютере и откройте в браузере файл **index.html**
 
 ## Методика теста
 
