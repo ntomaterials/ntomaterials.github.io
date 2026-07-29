@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html> 
-	<head>
-		<title>Тест на выбор профиля НТО</title>
-		<meta charset="utf-8">
-		<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="mobile-web-app-capable" content="yes">
-		<meta name="HandheldFriendly" content="true"/>
-		<link rel="stylesheet" type="text/css" href="styles/site.css">
-	</head>
-	<body>
-	<img src="images\logo.png" class="logo-image" alt="Национальная Технологическая Олимпиада">
-	<h1 align="center">
-	Тест на выбор профиля НТО
-	</h1>
-		<div class="wrapper">
-			<iframe src="quiz.html" width="95%" height="720 "class="quiz-frame" align="center"></iframe>
-		</div>
-	
-	<div class="footer">
-		Национальная технологическая олимпиада, 2024 г. 
-		<a href="https://github.com/ntomaterials/ntomaterials.github.io/archive/refs/heads/master.zip">Скачать офлайн версию теста</a>
-	</div>
-	</body>
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Какой профиль НТО тебе подходит?</title>
+    <meta
+      name="description"
+      content="Короткий тест, который помогает школьнику выбрать профиль Национальной технологической олимпиады. Без регистрации, расчёт идёт прямо в браузере."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#3b5bfd" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+  </head>
+  <body>
+    <main id="app" class="app"></main>
+    <noscript>
+      <p style="padding: 24px; font-family: system-ui, sans-serif">
+        Для прохождения теста нужен включённый JavaScript — весь расчёт выполняется в браузере.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

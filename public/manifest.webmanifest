@@ -1,0 +1,20 @@
+{
+  "name": "Какой профиль НТО тебе подходит?",
+  "short_name": "Профиль НТО",
+  "description": "Тест для выбора профиля Национальной технологической олимпиады. Работает без интернета после первого открытия.",
+  "lang": "ru",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f5f6fb",
+  "theme_color": "#3b5bfd",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

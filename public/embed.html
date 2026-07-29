@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Пример встраивания теста НТО</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px 16px;
+        font-family: system-ui, sans-serif;
+        line-height: 1.5;
+        background: #f5f6fb;
+        color: #14161f;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+      }
+      iframe {
+        display: block;
+        width: 100%;
+        min-height: 640px;
+        border: 1px solid #e1e5f0;
+        border-radius: 16px;
+        background: #fff;
+      }
+      code {
+        background: #e8ecff;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Пример встраивания</h1>
+      <p>
+        Страница ниже — тест, вставленный через <code>&lt;iframe&gt;</code>. Тест сообщает
+        родительской странице свою высоту сообщением
+        <code>{ type: 'nto-test:height', height }</code>, поэтому рамку можно подгонять
+        под содержимое и убрать внутреннюю прокрутку.
+      </p>
+
+      <iframe id="nto-test" src="./" title="Тест: какой профиль НТО тебе подходит"></iframe>
+
+      <script>
+        // Подгоняем высоту iframe под содержимое теста.
+        var frame = document.getElementById('nto-test');
+        window.addEventListener('message', function (event) {
+          if (event.source !== frame.contentWindow) return;
+          var data = event.data;
+          if (!data || data.type !== 'nto-test:height') return;
+          frame.style.height = data.height + 'px';
+        });
+      </script>
+    </div>
+  </body>
+</html>
