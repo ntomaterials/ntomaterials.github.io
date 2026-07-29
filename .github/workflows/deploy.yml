@@ -1,0 +1,74 @@
+name: Сборка и публикация теста
+
+# Любой пуш в main — включая замену CSV через веб-интерфейс GitHub —
+# пересобирает и публикует сайт без ручных действий.
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Одновременно идёт только одна публикация; новый пуш отменяет предыдущую.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Сборка
+    runs-on: ubuntu-latest
+    steps:
+      - name: Получить репозиторий
+        uses: actions/checkout@v4
+
+      - name: Установить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Установить зависимости
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit --no-fund
+          else
+            npm install --no-audit --no-fund
+          fi
+
+      # Тесты гоняем до сборки: если данные битые, ошибка видна сразу
+      # и с указанием файла и строки.
+      - name: Проверить данные и расчёт
+        run: npm test
+
+      - name: Собрать сайт
+        run: npm run build
+
+      - name: Собрать офлайн-версию одним файлом
+        run: npm run build:single
+
+      - name: Положить офлайн-версию рядом с сайтом
+        run: cp dist-single/index.html dist/nto-test-offline.html
+
+      - name: Подготовить GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Загрузить артефакт
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Публикация
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Опубликовать на GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
