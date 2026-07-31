@@ -22,7 +22,7 @@ import type {
   Profile,
   Question,
 } from '../src/types';
-import { SCALE_MAX } from '../src/scoring/constants';
+import { NEGATIVE, NEUTRAL, POSITIVE, POSITIVE_MAX, SCALE_MAX } from '../src/scoring/constants';
 
 export const MATRIX_FILE = 'nto_matrix_with_activities.csv';
 export const QUESTIONS_FILE = 'nto_questions.csv';
@@ -82,12 +82,15 @@ const BLOCK_TITLE: Readonly<Record<Block, string>> = {
   B: 'Б (типы деятельности)',
 };
 
-/** Колонки банка вопросов и соответствующие им баллы. */
+/**
+ * Колонки банка вопросов и соответствующие им баллы.
+ * Сами баллы настраиваются в одном месте — src/scoring/constants.ts.
+ */
 const OPTION_COLUMNS: readonly { column: string; value: AnswerOption['value'] }[] = [
-  { column: 'positive_3', value: 3 },
-  { column: 'positive_2', value: 2 },
-  { column: 'neutral_1', value: 1 },
-  { column: 'negative_0', value: 0 },
+  { column: 'positive_3', value: POSITIVE_MAX },
+  { column: 'positive_2', value: POSITIVE },
+  { column: 'neutral_1', value: NEUTRAL },
+  { column: 'negative_0', value: NEGATIVE },
 ];
 
 const REQUIRED_QUESTION_COLUMNS = [

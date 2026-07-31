@@ -1,6 +1,5 @@
 /** Экран результата: топ-3 профиля, предупреждения, полный рейтинг. */
 
-import { cautionText } from '../scoring';
 import type { ComponentHighlight, ProfileResult, TestResult } from '../scoring/types';
 import { h, plural } from './dom';
 
@@ -37,7 +36,6 @@ function renderCard(result: ProfileResult, rank: number): HTMLElement {
         h('span', { class: 'card__rank-label', text: RANK_LABEL[rank] ?? `Место ${rank + 1}` }),
       ),
       h('h3', { class: 'card__title', text: result.fullName }),
-      h('p', { class: 'card__code', text: `Код профиля: ${result.code}` }),
     ),
 
     h(
@@ -64,7 +62,7 @@ function renderCard(result: ProfileResult, rank: number): HTMLElement {
       ? h(
           'div',
           { class: 'card__section' },
-          h('h4', { class: 'card__section-title', text: 'Почему подходит' }),
+          h('h4', { class: 'card__section-title', text: 'Связанные темы' }),
           h('ul', { class: 'chips', role: 'list' }, ...result.strengths.map(renderStrength)),
         )
       : null,
@@ -77,10 +75,6 @@ function renderCard(result: ProfileResult, rank: number): HTMLElement {
           h('p', { class: 'card__activity', text: result.dominantActivity }),
         )
       : null,
-
-    ...result.cautions.map((caution) =>
-      h('p', { class: 'caution', role: 'note' }, cautionText(caution.name)),
-    ),
   );
 }
 
@@ -132,20 +126,6 @@ export function renderResult(result: TestResult, onRestart: () => void): HTMLEle
     h('div', { class: 'cards' }, ...result.top.map((item, rank) => renderCard(item, rank))),
 
     renderFullRanking(result),
-
-    h(
-      'details',
-      { class: 'disclosure' },
-      h('summary', { class: 'disclosure__summary', text: 'Как считается результат' }),
-      h('p', {
-        class: 'disclosure__text',
-        text:
-          `Методика: ${result.strategyTitle}. Ответы приводятся к общей шкале, ` +
-          'из них собирается твой профиль интересов, который сравнивается с описанием ' +
-          'каждого профиля олимпиады. Чем ближе описания, тем выше процент совпадения. ' +
-          'Расчёт полностью выполняется в браузере — ответы никуда не отправляются.',
-      }),
-    ),
 
     h(
       'div',

@@ -11,7 +11,7 @@ import { SCALE_MAX } from './constants';
 export type Answers = Readonly<Record<string, Answer>>;
 
 /** Значение компоненты для нейтрального балла — запасной вариант. */
-const NEUTRAL = SCALE_MAX / 2;
+const MIDPOINT = SCALE_MAX / 2;
 
 /**
  * Вектор пользователя U: по одной компоненте на каждую строку матрицы.
@@ -37,7 +37,7 @@ export function buildUserVector(answers: Answers, dataset: Dataset): number[] {
     counts[question.componentIndex] += 1;
   }
 
-  return sums.map((sum, index) => (counts[index] > 0 ? sum / counts[index] : NEUTRAL));
+  return sums.map((sum, index) => (counts[index] > 0 ? sum / counts[index] : MIDPOINT));
 }
 
 /** Приводит компоненту вектора пользователя из [0 .. 3] в [0 .. 1]. */
