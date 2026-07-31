@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 
+import { answerLogPlugin } from './build/vite-plugin-answer-log';
 import { ntoDataPlugin } from './build/vite-plugin-nto-data';
 import { serviceWorkerPlugin } from './build/vite-plugin-service-worker';
 import { singleFilePlugin } from './build/vite-plugin-single-file';
@@ -12,7 +13,11 @@ export default defineConfig(({ mode }) => {
     // и в подкаталоге (GitHub Pages: https://user.github.io/repo/).
     base: './',
 
-    plugins: [ntoDataPlugin(), single ? singleFilePlugin() : serviceWorkerPlugin()],
+    plugins: [
+      ntoDataPlugin(),
+      answerLogPlugin(),
+      single ? singleFilePlugin() : serviceWorkerPlugin(),
+    ],
 
     define: {
       __SINGLE_FILE__: JSON.stringify(single),

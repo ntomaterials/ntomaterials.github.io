@@ -3,8 +3,12 @@
  *
  * Ответы живут только в памяти этой вкладки: ни localStorage, ни sessionStorage,
  * ни сетевых запросов — при перезагрузке страницы всё стирается (раздел 6 ТЗ).
+ *
+ * Исключение — answerLogger: он шлёт запросы только при `npm run dev`
+ * (см. src/dev/answer-log.ts), в собранном сайте этой ветки кода нет.
  */
 
+import { createAnswerLogger } from '../dev/answer-log';
 import { evaluateAnswers } from '../scoring';
 import type { Answer, Dataset, Question } from '../types';
 import { render } from './dom';
@@ -20,10 +24,22 @@ const AUTO_ADVANCE_DELAY_MS = 320;
 
 export function createApp(root: HTMLElement, dataset: Dataset): void {
   const answers = new Map<string, Answer>();
+  const answerLogger = createAnswerLogger();
   let screen: Screen = 'welcome';
   let index = 0;
   let quiz: QuizView | null = null;
   let autoAdvanceTimer: number | undefined;
+
+  /** Баллы уже данных ответов по порядку вопросов — только для дев-лога. */
+  function orderedScores(): number[] {
+    const scores: number[] = [];
+    for (const question of dataset.questions) {
+      const value = answers.get(question.id);
+      if (value === undefined) break;
+      scores.push(value);
+    }
+    return scores;
+  }
 
   function cancelAutoAdvance(): void {
     if (autoAdvanceTimer === undefined) return;
@@ -64,6 +80,7 @@ export function createApp(root: HTMLElement, dataset: Dataset): void {
     const wasAnswered = answers.has(question.id);
     answers.set(question.id, value);
     quiz?.setAnswered(true);
+    answerLogger.record(orderedScores());
 
     const isLast = index === dataset.questions.length - 1;
     if (!wasAnswered && fromPointer && !isLast) {
@@ -78,6 +95,7 @@ export function createApp(root: HTMLElement, dataset: Dataset): void {
   function start(): void {
     index = 0;
     screen = 'quiz';
+    answerLogger.markStarted();
     update();
   }
 

@@ -11,6 +11,7 @@
  * где это настраивается). Колонки банка вопросов (positive_3, positive_2,
  * neutral_1, negative_0 в build/data-loader.ts) сопоставляются с этими
  * значениями по смыслу варианта, а не по числу в названии колонки.
+ * Значения могут быть как целыми, так и дробными.
  */
 export const POSITIVE_MAX = 3;
 export const POSITIVE = 2;

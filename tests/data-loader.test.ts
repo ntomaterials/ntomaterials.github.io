@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 import { DataValidationError, loadDataset } from '../build/data-loader';
+import { NEGATIVE, NEUTRAL, POSITIVE, POSITIVE_MAX } from '../src/scoring/constants';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(here, '..');
@@ -49,9 +50,14 @@ describe('реальные данные из /data', () => {
     }
   });
 
-  it('у каждого вопроса ровно четыре варианта ответа со шкалой 3…0', () => {
+  it('у каждого вопроса ровно четыре варианта ответа со шкалой из констант', () => {
     for (const question of dataset.questions) {
-      expect(question.options.map((option) => option.value)).toEqual([3, 2, 1, 0]);
+      expect(question.options.map((option) => option.value)).toEqual([
+        POSITIVE_MAX,
+        POSITIVE,
+        NEUTRAL,
+        NEGATIVE,
+      ]);
       for (const option of question.options) expect(option.label).not.toBe('');
     }
   });
