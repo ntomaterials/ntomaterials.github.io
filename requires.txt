@@ -1,0 +1,27 @@
+# Требования для запуска проекта nto-profile-test
+
+## Среда выполнения
+Node.js >= 20
+npm (поставляется вместе с Node.js)
+
+## Зависимости (из package.json)
+# Полное дерево (включая транзитивные) зафиксировано в package-lock.json —
+# `npm install` восстановит его точно.
+
+@types/node@^22.9.0
+@types/papaparse@^5.3.15
+papaparse@^5.4.1
+typescript@^5.6.3
+vite@^5.4.10
+vitest@^2.1.4
+
+## Установка
+npm install
+
+## Основные команды
+npm run dev          # локальный сервер разработки (Vite)
+npm run build        # сборка сайта в ./dist (включает проверку типов)
+npm run build:single # автономный dist-single/index.html
+npm run preview      # просмотр собранной сборки
+npm test             # запуск тестов (Vitest)
+npm run typecheck    # только проверка типов, без сборки
